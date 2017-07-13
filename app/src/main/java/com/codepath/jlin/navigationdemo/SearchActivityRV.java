@@ -27,6 +27,7 @@ public class SearchActivityRV extends AppCompatActivity implements ContactAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_rv);
 
+        //enable navigation back to parent activity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mData = DemoHelper.createContactList();
