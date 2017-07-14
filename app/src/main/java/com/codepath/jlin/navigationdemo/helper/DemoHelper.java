@@ -5,6 +5,9 @@ import com.codepath.jlin.navigationdemo.model.Contact;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class that used to create a list of contacts using ArrayList
+ */
 public class DemoHelper {
 
     private static List<Contact> contactList;
