@@ -1,58 +1,62 @@
 package com.codepath.jlin.navigationdemo;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepath.jlin.navigationdemo.model.Contact;
 
 import java.util.List;
 
-public class ContactAdapter extends ArrayAdapter<Contact> {
+public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHolder> {
 
     private Listener mListener;
+    private List<Contact> contactList;
 
-    public static interface Listener {
+    public interface Listener {
         void onClickContact(int position);
     }
 
-    public ContactAdapter(Context context, Listener listener, int resource, List<Contact> contacts) {
-        super(context, resource, contacts);
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView name;
+        public View llContainer;
+
+        public MyViewHolder(View view) {
+            super(view);
+            name = (TextView) view.findViewById(R.id.tvName);
+            llContainer = view.findViewById(R.id.llContainer);
+        }
+    }
+
+    public ContactAdapter(Listener listener, List<Contact> contactList) {
+        this.contactList = contactList;
         mListener = listener;
     }
 
-    private static class ViewHolder {
-        TextView name;
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        return new MyViewHolder(itemView);
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        Contact contact = getItem(position);
-        ViewHolder viewHolder;
-        if (convertView == null) {
-            viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.list_item, parent, false);
-            viewHolder.name = (TextView) convertView.findViewById(R.id.tvName);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-
-        viewHolder.name.setText(contact.getName());
-        convertView.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        Contact contact = contactList.get(position);
+        holder.name.setText(contact.getName());
+        holder.llContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onClickContact(position);
-                }
+                mListener.onClickContact(position);
             }
         });
-        return convertView;
     }
 
+    @Override
+    public int getItemCount() {
+        return contactList.size();
+    }
 }
 
