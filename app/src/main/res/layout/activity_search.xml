@@ -6,11 +6,11 @@
     android:orientation="vertical"
     tools:context="com.codepath.jlin.navigationdemo.SearchActivity">
 
-    <ListView
-        android:id="@+id/lvContacts"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvContacts"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </ListView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

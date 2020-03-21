@@ -1,15 +1,15 @@
 package com.codepath.jlin.navigationdemo;
 
 import android.content.Intent;
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepath.jlin.navigationdemo.helper.DemoHelper;
 import com.codepath.jlin.navigationdemo.model.Contact;
@@ -21,25 +21,25 @@ public class SearchActivity extends AppCompatActivity implements ContactAdapter.
 
     List<Contact> mData = new ArrayList<>();
     ContactAdapter mAdapter;
-    ListView mListView;
+    RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        //enable navigation back to parent activity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mData = DemoHelper.createContactList();
-        mAdapter = new ContactAdapter(this, this, R.layout.list_item, mData);
-        mListView = (ListView) findViewById(R.id.lvContacts);
-        mListView.setAdapter(mAdapter);
-//        mRecylerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                finishActivityWithResult(position);
-//            }
-//        });
+        mAdapter = new ContactAdapter(this, mData);
+        mRecyclerView = findViewById(R.id.rvContacts);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void finishActivityWithResult(int position) {
